@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    environment:
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+      - SSL_MODE=${SSL_MODE}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - SERV_PORT=${SERV_PORT}
+      - READ_TIME=${READ_TIME}
+      - WRITE_TIME=${WRITE_TIME}
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres
+    ports:
+      - "5436:5432"
+    environment:
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - ./schema/000001_init.up.sql:/docker-entrypoint-initdb.d/000001_init.up.sql
+        
