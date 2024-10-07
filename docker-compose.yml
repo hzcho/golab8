@@ -13,6 +13,8 @@ services:
       - SERV_PORT=${SERV_PORT}
       - READ_TIME=${READ_TIME}
       - WRITE_TIME=${WRITE_TIME}
+      - TTL=${TTL}
+      - TOKEN_KEY=${TOKEN_KEY}
     ports:
       - "8080:8080"
     depends_on:

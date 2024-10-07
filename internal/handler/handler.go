@@ -10,15 +10,24 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-// @title           Building API
+// @title           Users API
 // @version         1.0
-// @description     This is an API server for working with buildings
+// @description     This is an API server for working with users
 //
 //	@host			localhost:8080
+
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
 func InitRoutes(router *gin.Engine, groups group.Groups) {
 	api := router.Group("/api/v1")
 	{
-		users := api.Group("/users")
+		auth := api.Group("/auth")
+		{
+			auth.POST("/register", groups.Auth.Register)
+			auth.POST("/login", groups.Auth.SignIn)
+		}
+		users := api.Group("/users", groups.Middleware.AccountIdentity())
 		{
 			users.GET("/", groups.User.Get)
 			users.GET("/:id", groups.User.GetById)

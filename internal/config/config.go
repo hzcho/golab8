@@ -11,6 +11,7 @@ import (
 type Config struct {
 	DB
 	Server
+	Auth
 }
 
 type DB struct {
@@ -28,6 +29,11 @@ type Server struct {
 	WriteTime time.Duration `env:"WRITE_TIME" env-required:"true"`
 }
 
+type Auth struct {
+	TTL      time.Duration `env:"TTL" env-required:"true"`
+	TokenKey string        `env:"TOKEN_KEY" env-required:"true"`
+}
+
 func LoadConfig() (*Config, error) {
 	godotenv.Load() //don't handle errors because we can upload via docker
 
@@ -38,6 +44,10 @@ func LoadConfig() (*Config, error) {
 
 	if err := env.Parse(&cfg.Server); err != nil {
 		return nil, fmt.Errorf("configuration reading error Server: %w", err)
+	}
+
+	if err := env.Parse(&cfg.Auth); err != nil {
+		return nil, fmt.Errorf("configuration reading error Auth: %w", err)
 	}
 
 	return cfg, nil

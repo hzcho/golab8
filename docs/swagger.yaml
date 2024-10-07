@@ -9,6 +9,30 @@ definitions:
     - age
     - name
     type: object
+  model.RegisterBody:
+    properties:
+      login:
+        type: string
+      password:
+        type: string
+    type: object
+  model.RegisterResponse:
+    properties:
+      account_id:
+        type: integer
+    type: object
+  model.SignInBody:
+    properties:
+      login:
+        type: string
+      password:
+        type: string
+    type: object
+  model.SignInResponse:
+    properties:
+      token:
+        type: string
+    type: object
   model.UpdateUserSwagger:
     properties:
       age:
@@ -28,10 +52,70 @@ definitions:
 host: localhost:8080
 info:
   contact: {}
-  description: This is an API server for working with buildings
-  title: Building API
+  description: This is an API server for working with users
+  title: Users API
   version: "1.0"
 paths:
+  /api/v1/auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate user and return a JWT token
+      parameters:
+      - description: User login and password
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.SignInBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: token
+          schema:
+            $ref: '#/definitions/model.SignInResponse'
+        "400":
+          description: incorrect request structure
+          schema:
+            type: string
+        "500":
+          description: couldn't create the token
+          schema:
+            type: string
+      summary: Sign in user
+      tags:
+      - auth
+  /api/v1/auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Create a new user account and return the user ID
+      parameters:
+      - description: User login and password
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.RegisterBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: account id
+          schema:
+            $ref: '#/definitions/model.RegisterResponse'
+        "400":
+          description: incorrect request structure
+          schema:
+            type: string
+        "500":
+          description: couldn't create the user
+          schema:
+            type: string
+      summary: Register a new user
+      tags:
+      - auth
   /api/v1/users/:
     get:
       description: Retrieve a list of users with optional filters.
@@ -67,6 +151,8 @@ paths:
           description: Internal server error
           schema:
             type: string
+      security:
+      - ApiKeyAuth: []
       summary: Get users
       tags:
       - songs
@@ -176,4 +262,9 @@ paths:
       summary: Update an existing user
       tags:
       - songs
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

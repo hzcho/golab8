@@ -21,6 +21,7 @@ func NewUser(userUseCase usecase.User) *User {
 }
 
 // Get retrieves users based on query parameters.
+// @Security ApiKeyAuth
 // @Tags songs
 // @Summary Get users
 // @Description Retrieve a list of users with optional filters.

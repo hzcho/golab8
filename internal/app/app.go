@@ -29,7 +29,7 @@ func NewApp(ctx context.Context, cfg *config.Config, log *logrus.Logger) *App {
 	}
 
 	repos := repository.NewRepositories(pool)
-	usecases := usecase.NewUsecases(repos, log)
+	usecases := usecase.NewUsecases(repos, log, cfg)
 	groups := group.NewGroups(usecases)
 	router := gin.New()
 

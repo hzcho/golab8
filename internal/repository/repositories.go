@@ -8,10 +8,12 @@ import (
 
 type Repositories struct {
 	repository.User
+	repository.Account
 }
 
 func NewRepositories(pool *pgxpool.Pool) *Repositories {
 	return &Repositories{
-		User: NewUser(pool),
+		User:    NewUser(pool),
+		Account: NewAccount(pool),
 	}
 }
