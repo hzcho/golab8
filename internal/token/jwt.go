@@ -10,6 +10,7 @@ import (
 
 type TokenClaims struct {
 	Login string `json:"login"`
+	Admin bool   `json:"admin"`
 	Exp   int64  `json:"exp"`
 }
 

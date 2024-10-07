@@ -1,7 +1,7 @@
 package model
 
 type Account struct {
-	Id       int64  `json:"id" db:"id"`
+	Id       uint64 `json:"id" db:"id"`
 	Login    string `json:"login" db:"login"`
 	Password string `json:"password" db:"pass_hash"`
 }

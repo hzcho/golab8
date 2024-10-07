@@ -16,6 +16,6 @@ type Usecases struct {
 func NewUsecases(repos *repository.Repositories, log *logrus.Logger, cfg *config.Config) *Usecases {
 	return &Usecases{
 		User: NewUser(repos.User, log),
-		Auth: NewAuth(repos.Account, log, &cfg.Auth),
+		Auth: NewAuth(repos.Account, repos.Admin, log, &cfg.Auth),
 	}
 }

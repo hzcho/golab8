@@ -9,11 +9,13 @@ import (
 type Repositories struct {
 	repository.User
 	repository.Account
+	repository.Admin
 }
 
 func NewRepositories(pool *pgxpool.Pool) *Repositories {
 	return &Repositories{
 		User:    NewUser(pool),
 		Account: NewAccount(pool),
+		Admin:   NewAdmin(pool),
 	}
 }

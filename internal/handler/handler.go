@@ -1,9 +1,8 @@
 package handler
 
 import (
-	"golab8/internal/group"
-
 	_ "golab8/docs"
+	"golab8/internal/group"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -34,6 +33,10 @@ func InitRoutes(router *gin.Engine, groups group.Groups) {
 			users.POST("/", groups.User.Post)
 			users.PUT("/:id", groups.User.Put)
 			users.DELETE("/:id", groups.User.Delete)
+		}
+		admins := api.Group("/admins", groups.Middleware.AccountIdentity())
+		{
+			admins.GET("/", groups.Admin.Get)
 		}
 	}
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

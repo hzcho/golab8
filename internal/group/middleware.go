@@ -10,7 +10,6 @@ import (
 
 const (
 	authorizationHeader = "Authorization"
-	loginArg            = "login"
 )
 
 type Middleware struct {
@@ -45,14 +44,14 @@ func (m *Middleware) AccountIdentity() gin.HandlerFunc {
 			return
 		}
 
-		login, err := m.authUseCase.VerifyToken(c.Request.Context(), parts[1])
+		claims, err := m.authUseCase.VerifyToken(c.Request.Context(), parts[1])
 		if err != nil {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid token"})
 			c.Abort()
 			return
 		}
 
-		c.Set(loginArg, login)
+		c.Set("admin", claims.Admin)
 		c.Next()
 	}
 }
