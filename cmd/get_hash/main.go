@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	password := "vukivuki"
+	password := "1a2b3cC#"
 	passHash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		log.Fatal(err)
